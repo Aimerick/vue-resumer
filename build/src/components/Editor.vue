@@ -1,10 +1,123 @@
 <template>
-    <div id="editor">我是editor</div>
+<div id="editor">
+    <nav>
+        <ol>
+            <li v-for="i in [0,1,2,3,4,5]" 
+                v-bind:class="{active:currentTab===i}" 
+                v-on:click = "currentTab = i"
+                >
+                <svg class="icon">
+                    <use v-bind:xlink:href="`#${icons[i]}`"></use>
+                </svg>
+            </li>        
+        </ol>
+    </nav>
+    <ol className="panes">
+        <li v-bind:class="{active:currentTab===0}">
+           <ProfileEditor v-bind:profile="profile"/>
+        </li>
+        <li v-bind:class="{active:currentTab===1}">
+            <WorkHistoryEditor v-bind:workHistory="workHistory"/>
+        </li>
+        <li v-bind:class="{active:currentTab===2}">
+            <StudyHistoryEditor v-bind:studyHistory="studyHistory"/>
+        </li>
+        <li v-bind:class="{active:currentTab===3}">
+            <h2>项目经历</h2>
+        </li>
+        <li v-bind:class="{active:currentTab===4}">
+            <h2>获奖情况</h2>
+        </li>
+        <li v-bind:class="{active:currentTab===5}">
+            <h2>联系方式</h2>
+        </li>
+    </ol>
+</div>
 </template>
 
-<style>
-    #editor{
-        border: 1px solid blue;
-        min-height: 100px;
+<script>
+    import ProfileEditor from './ProfileEditor'
+    import WorkHistoryEditor from './WorkHistoryEditor'
+    import StudyHistoryEditor from './StudyHistoryEditor'
+    export default{
+        components:{ ProfileEditor , WorkHistoryEditor, StudyHistoryEditor},
+        data(){
+            return{
+                currentTab: 0,
+                icons: ['icon-shenfenzheng', 'icon-gongzuojingyan', 'icon-study', 'icon-heart',  'icon-jiangbei-copy', 'icon-phone'],
+                profile: {
+                    name: '',
+                    city: '',
+                    birth: ''
+                },
+                workHistory: [
+                    {company:'', time:'', content:''},
+                ],
+                studyHistory: [
+                    {school:'', duration:'', degree:''},
+                ],
+            }
+        },
+
+        methods: {
+            
+        }
+
     }
+</script>
+
+<style lang="scss">
+    #editor{
+        display: flex;
+        min-height: 100px;
+        > nav{
+            background: #000;
+            width: 80px;
+            height: 100%;
+        }
+        min-height: 100px;
+        nav > ol > li {
+            padding: 8px 0;
+            text-align: center;
+            > .icon{
+                width: 24px;
+                height: 24px;
+                fill: #fff;
+            }
+            &.active{
+                background: #fff;
+                
+                > .icon{
+                    fill: black;
+                }
+            }
+        }
+
+        > ol 
+        {
+            .container{
+                position: relative;
+                margin-bottom: 16px;
+                .el-icon-close{
+                    position: absolute;
+                    right: 0;
+                    top: 0;
+                    font-size: 8px;
+                }
+            }
+            flex: 1;
+            > li{
+                display: none;
+                padding: 32px;
+                height: 100%;
+                overflow: auto;
+                &.active{
+                    display: block;
+                }
+            }
+        }
+    }
+
+    
 </style>
+

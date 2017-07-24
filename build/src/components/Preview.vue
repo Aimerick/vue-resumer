@@ -4,7 +4,6 @@
 
 <style>
     #preview{
-        border: 1px solid pink;
         min-height: 100px;
     }
 </style>
